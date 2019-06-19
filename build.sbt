@@ -39,13 +39,16 @@ lazy val makeDockerVersionTaskImpl = Def.task {
 
 import com.typesafe.sbt.packager.docker._
 
-dockerCommands ++= Seq(
-  Cmd("USER", "root"),
-  Cmd("RUN", "apk add --update bash"),
-  Cmd(
-    "RUN",
-    "sed -e app_mainclass=com.knoldus.BankingSystem",
-    s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"
-  )
+dockerCommands += Cmd(
+  "USER",
+  "root"
 )
-
+dockerCommands += Cmd(
+  "RUN",
+  "apk add --update bash"
+)
+dockerCommands += Cmd(
+  "RUN",
+  "sed -e app_mainclass=com.knoldus.BankingSystem",
+  s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"
+)
